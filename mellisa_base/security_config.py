@@ -1,7 +1,7 @@
-"""
-Security testing configuration for Mellisa
-Ensures ethical and responsible security testing practices
-"""
+################################################
+# Security testing configuration for Mellisa
+# Ensures ethical and security testing practices
+################################################
 
 # Ethical scraping settings
 SECURITY_TESTING_CONFIG = {
@@ -43,17 +43,8 @@ EXCLUDED_PATTERNS = [
     '/config/',
 ]
 
+# Generate settings dictionary based on ethical testing configuration
 def get_ethical_settings(respect_robots=None, delay=None):
-    """
-    Get Scrapy settings configured for ethical security testing
-
-    Args:
-        respect_robots: Override robots.txt setting
-        delay: Override request delay
-
-    Returns:
-        Dictionary of Scrapy settings
-    """
     settings = {
         'USER_AGENT': SECURITY_TESTING_CONFIG['USER_AGENT'],
         'ROBOTSTXT_OBEY': respect_robots if respect_robots is not None else SECURITY_TESTING_CONFIG['RESPECT_ROBOTS'],
