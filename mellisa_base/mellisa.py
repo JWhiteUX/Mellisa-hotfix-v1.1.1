@@ -1,4 +1,6 @@
-import ascii
+#!/usr/bin/env python3
+# Mellisa - Web Parameter Discovery and Security Testing Tool
+
 from urllib.parse import urlparse
 from scrapy.utils.project import get_project_settings
 from pathlib import Path
@@ -55,9 +57,6 @@ def run_spider(output_file=None, respect_robots=None, delay=None, **kwargs):
 
     return output_file
 
-# commit @1eebe226194b68d88da9c3ab1d6685431d15fa08
-# by JWhiteUX from hotfix/v1.1.0
-#
 # URL validation with scheme detection
 def validate_url(url):
     """Validate URL format for security testing purposes."""
