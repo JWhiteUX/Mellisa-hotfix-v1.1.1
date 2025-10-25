@@ -16,6 +16,11 @@ This Python script scans web pages to extract potential URL parameters, form fie
 > **Note:** The script now resolves `wordlist.txt` dynamically via `pathlib`, so no hard‑coded paths are required.
 
 # What's New (v1.1.2)
+* **Security configuration integration**
+    - Ethical testing settings with configurable delays and rate limiting
+    - Transparency headers identifying the tool during scans
+    - CLI options for respecting robots.txt and custom delays
+
 * **Minor dependencies updates**
     - Read CHANGELOG/v1.1.2
 
@@ -72,10 +77,36 @@ chmod +x mellisa.sh
   ```bash
   ./mellisa.sh https://www.google.com/
   ```
+
   Example (with Custom XPath Query):
   ```bash
   ./mellisa.sh https://www.google.com/ -c <custom_query>
   ```
+
+  Example (respecting robots.txt):
+  ```bash
+  ./mellisa.sh https://www.google.com/ --respect-robots
+  ```
+
+  Example (custom delay between requests):
+  ```bash
+  ./mellisa.sh https://www.google.com/ --delay 2.5
+  ```
+
+### Ethical Testing Options
+
+Mellisa includes built-in security configuration for responsible testing:
+
+- **Default settings** (configured in `security_config.py`):
+  - 1 second delay between requests
+  - Respects robots.txt by default
+  - Maximum depth of 3 levels
+  - Limit of 100 pages per domain
+  - Transparent user agent and headers
+
+- **CLI overrides**:
+  - `--respect-robots` - Force respecting robots.txt
+  - `--delay <seconds>` - Set custom delay (e.g., `--delay 2.5` for 2.5 seconds)
 
 ## Testing Domains and Best Practices
 

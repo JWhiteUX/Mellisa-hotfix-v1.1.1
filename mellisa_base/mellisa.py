@@ -1,9 +1,9 @@
-import ascii
 from urllib.parse import urlparse
 from scrapy.utils.project import get_project_settings
 from pathlib import Path
 from scrapy.crawler import CrawlerProcess
-from ascii.description_ascii import mellisa_ascii  
+from ascii.description_ascii import mellisa_ascii
+from security_config import get_ethical_settings
 import argparse
 import atexit
 import signal
@@ -23,7 +23,7 @@ class CustomHelpFormatter(argparse.RawDescriptionHelpFormatter):
         return super().start_section(heading)
 
 
-def run_spider(output_file=None, **kwargs):
+def run_spider(output_file=None, respect_robots=None, delay=None, **kwargs):
     settings = get_project_settings()
     spider_name = "param_spider"
 
@@ -34,7 +34,12 @@ def run_spider(output_file=None, **kwargs):
 
     # full path of the output file
     output_path = output_folder / output_file if output_file else None
-    
+
+    # Apply ethical security testing settings if overrides are provided
+    if respect_robots is not None or delay is not None:
+        ethical_settings = get_ethical_settings(respect_robots=respect_robots, delay=delay)
+        settings.update(ethical_settings)
+
     if output_file:
         settings.update({
             'FEED_FORMAT': 'json',
@@ -111,6 +116,8 @@ examples:
 
     parser.add_argument('url', help="URL of the website to crawl")
     parser.add_argument('-c', '--custom_xpath', help="Custom XPATH Query")
+    parser.add_argument('--respect-robots', action='store_true', help="Respect robots.txt during testing")
+    parser.add_argument('--delay', type=float, help="Custom delay between requests (seconds)")
     args = parser.parse_args()
     validated_url = validate_url(args.url)
 
@@ -121,15 +128,15 @@ examples:
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [validated_url]
         print(f"target: {args.url}")
-        run_spider(output_file=domain_name, **spider_kwargs)       
-        
+        run_spider(output_file=domain_name, respect_robots=args.respect_robots if args.respect_robots else None, delay=args.delay, **spider_kwargs)
+
     elif args.url and args.custom_xpath:
         event_condition = event_handler(args.custom_xpath, args, parser)
         domain_name = remove_char(args.url)
         spider_kwargs['start_urls'] = [validated_url]
         print(f"target: {args.url}")
         spider_kwargs['custom_xpath'] = args.custom_xpath
-        run_spider(output_file=domain_name, **spider_kwargs)
+        run_spider(output_file=domain_name, respect_robots=args.respect_robots if args.respect_robots else None, delay=args.delay, **spider_kwargs)
 
     return return_if_args(validated_url)
 

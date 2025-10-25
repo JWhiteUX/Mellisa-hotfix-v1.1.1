@@ -7,6 +7,8 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
+from security_config import SECURITY_TESTING_CONFIG
+
 BOT_NAME = "mellisa"
 
 SPIDER_MODULES = ["mellisa_base.spiders"]
@@ -14,18 +16,31 @@ NEWSPIDER_MODULE = "mellisa_base.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "mellisa (+http://www.yourdomain.com)"
+# Using security testing configuration
+USER_AGENT = SECURITY_TESTING_CONFIG['USER_AGENT']
 
-# Obey robots.txt rules
-ROBOTSTXT_OBEY = False
+# Obey robots.txt rules - from security config
+ROBOTSTXT_OBEY = SECURITY_TESTING_CONFIG['RESPECT_ROBOTS']
+
+# Request delay for responsible testing
+DOWNLOAD_DELAY = SECURITY_TESTING_CONFIG['DEFAULT_DELAY']
+
+# Depth limit to prevent infinite loops
+DEPTH_LIMIT = SECURITY_TESTING_CONFIG['MAX_DEPTH']
+
+# Maximum pages per domain
+CLOSESPIDER_PAGECOUNT = SECURITY_TESTING_CONFIG['MAX_PAGES']
+
+# Request timeout
+DOWNLOAD_TIMEOUT = SECURITY_TESTING_CONFIG['REQUEST_TIMEOUT']
+
+# Default request headers for transparency
+DEFAULT_REQUEST_HEADERS = SECURITY_TESTING_CONFIG['DEFAULT_HEADERS']
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
-# Configure a delay for requests for the same website (default: 0)
-# See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+# Download delay configured via security_config.py
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16

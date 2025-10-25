@@ -6,3 +6,15 @@ Security Updates
 
 Added Features
 * Added URL validation with automatic scheme detection
+* Integrated security_config.py for ethical testing configuration
+  - Default 1 second delay between requests
+  - Transparent user agent and headers (X-Scanner, X-Purpose)
+  - Configurable robots.txt compliance (default: enabled)
+  - Rate limiting with max depth (3) and page count (100)
+* New CLI options:
+  - `--respect-robots` to enforce robots.txt compliance
+  - `--delay <seconds>` to customize request delays
+
+Code Quality
+* Removed unused imports (mellisa.py)
+* Added comprehensive docstrings to security functions
