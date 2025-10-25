@@ -1,3 +1,4 @@
+import ascii
 from urllib.parse import urlparse
 from scrapy.utils.project import get_project_settings
 from pathlib import Path
@@ -10,6 +11,7 @@ import signal
 import os
 import sys
 import re
+
 mellisa = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, mellisa)
 os.environ.setdefault('SCRAPY_SETTINGS_MODULE', 'mellisa_base.settings')

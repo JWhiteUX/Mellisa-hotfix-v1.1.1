@@ -19,7 +19,7 @@ fi
     
     exec </dev/null >/dev/null 2>&1
     
-    while ps -p $TERM_PID > /dev/null 2>&1; do
+    while ps -p "$TERM_PID" > /dev/null 2>&1; do
         sleep 1
     done
     
@@ -30,6 +30,6 @@ MONITOR_PID=$!
 disown $MONITOR_PID
 
 # Run the Python script
-python "$PYTHON_SCRIPT" "$@"
+python3 "$PYTHON_SCRIPT" "$@"
 
 exit 0
